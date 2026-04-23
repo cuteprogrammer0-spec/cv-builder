@@ -8,13 +8,12 @@ const PreviewSection = () => {
 
     // Google Sheets এ ডেটা পাঠানোর ফাংশন
     const saveToGoogleSheet = async () => {
-        // আপনার দেওয়া URL এখানে বসানো হয়েছে
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz7aFe8e5_iw58rtKXMXCxNWOvcos3LIATzC3kesPeq85ZSePu3YC18d-0-v_hsWFJ2HA/exec'
         
         try {
             await fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
-                mode: 'no-cors', // Google Apps Script এর জন্য এটি জরুরি
+                mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(cvData),
             });
@@ -30,7 +29,7 @@ const PreviewSection = () => {
         documentTitle: `CV_of_${cvData?.personalInfo?.fullName || 'Candidate'}`,
         onAfterPrint: () => {
             console.log("PDF generated!");
-            saveToGoogleSheet(); // ডাউনলোড শেষ হলে ডেটা শিটে চলে যাবে
+            saveToGoogleSheet();
         }
     });
 
@@ -49,12 +48,12 @@ const PreviewSection = () => {
     };
 
     return (
-        <div className="flex flex-col items-center w-full overflow-hidden">
-            <div className="w-full flex justify-center bg-slate-900/30 rounded-xl p-4 overflow-auto">
+        <div className="flex flex-col items-center w-full overflow-x-hidden pb-24">
+            <div className="w-full flex justify-center bg-slate-900/30 rounded-xl p-2 md:p-4 overflow-auto">
                 <div className="origin-top scale-[0.45] md:scale-[0.55] lg:scale-[0.65] transition-all">
                     <div 
                         ref={componentRef}
-                        className="w-[210mm] min-h-[297mm] p-[20mm] font-serif shadow-2xl mx-auto"
+                        className="cv-print-container w-[210mm] min-h-[297mm] p-[20mm] font-serif shadow-2xl mx-auto"
                         style={{ backgroundColor: '#ffffff', color: '#000000' }} 
                     >
                         {/* ১. হেডার */}
@@ -184,12 +183,15 @@ const PreviewSection = () => {
                 </div>
             </div>
 
-            <button 
-                onClick={handlePrint}
-                className="mt-6 mb-10 px-12 py-4 bg-gradient-to-r from-green-600 to-teal-500 text-white font-bold rounded-full hover:shadow-lg transition-all active:scale-95 flex items-center gap-2"
-            >
-                📥 Download PDF CV
-            </button>
+            {/* বাটনটি মোবাইলে স্ক্রিনের সাথে ফিক্সড করা হয়েছে যাতে সবসময় দেখা যায় */}
+            <div className="fixed bottom-4 left-0 w-full px-6 md:relative md:bottom-0 md:px-0 flex justify-center z-50">
+                <button 
+                    onClick={handlePrint}
+                    className="w-full max-w-xs md:w-auto mt-6 px-12 py-4 bg-gradient-to-r from-green-600 to-teal-500 text-white font-bold rounded-full shadow-2xl hover:shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2"
+                >
+                    📥 Download PDF CV
+                </button>
+            </div>
         </div>
     );
 };

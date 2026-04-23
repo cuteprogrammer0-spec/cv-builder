@@ -1,6 +1,40 @@
 
 @plugin "daisyui";
 
+@media print {
+  /* প্রিন্ট হওয়ার সময় স্ক্রিন সাইজ যাই হোক, এটি A4 সাইজ নিশ্চিত করবে */
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  /* পুরো বডি এবং কন্টেইনার ফিক্স করা */
+  body {
+    -webkit-print-color-adjust: exact;
+    width: 210mm;
+    height: 297mm;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* প্রিভিউ সেকশনের স্কেলিং রিসেট করা */
+  .cv-print-container {
+    transform: scale(1) !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    margin: 0 !important;
+    padding: 20mm !important; 
+    position: static !important;
+    display: block !important;
+    background-color: white !important;
+  }
+
+  /* মোবাইলে যাতে কন্টেন্ট কেটে না যায় */
+  .no-print {
+    display: none !important;
+  }
+}
+
 .counter {
   font-size: 16px;
   padding: 5px 10px;
